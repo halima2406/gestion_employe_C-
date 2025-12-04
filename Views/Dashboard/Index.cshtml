@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-5">
+    <h1 class="display-4">Bienvenue sur GesEmpAspNet</h1>
+    <p class="lead">Système de gestion des employés et départements</p>
+    
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Départements</h5>
+                    <p class="card-text">Gérer les départements de l'entreprise</p>
+                    <a asp-controller="Departement" asp-action="Index" class="btn btn-primary">Voir les départements</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Employés</h5>
+                    <p class="card-text">Gérer les employés et leurs comptes</p>
+                    <a asp-controller="Employe" asp-action="Index" class="btn btn-primary">Voir les employés</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

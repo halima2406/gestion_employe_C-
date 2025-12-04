@@ -1,0 +1,104 @@
+@model IEnumerable<GesEmpAspNet.Models.Employe>
+
+@{
+    ViewData["Title"] = "Liste des comptes";
+    var currentPage = ViewBag.CurrentPage;
+    var totalPages = ViewBag.TotalPages;
+    var departementId = ViewBag.DepartementId;
+}
+
+<div class="container-fluid mt-4">
+    <h1 class="mb-4">Liste des comptes</h1>
+    
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Rechercher un compte..." />
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-outline-secondary w-100"><i class="bi bi-search"></i></button>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select">
+                <option>Type de compte</option>
+                <option>Épargne</option>
+                <option>Chèque</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select">
+                <option>Trier par</option>
+                <option>Date</option>
+                <option>Solde</option>
+            </select>
+        </div>
+        <div class="col-md-2 text-end">
+            <button class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Nouveau compte
+            </button>
+        </div>
+    </div>
+    
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>N° Compte</th>
+                    <th>Titulaire</th>
+                    <th>Type</th>
+                    <th>Solde</th>
+                    <th>Date de création</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var emp in Model)
+                {
+                    <tr>
+                        <td>@emp.NumeroCompte</td>
+                        <td>@emp.Titulaire</td>
+                        <td>
+                            <span class="badge @(emp.Type == "Épargne" ? "bg-info" : "bg-secondary")">@emp.Type</span>
+                        </td>
+                        <td>@emp.Solde.ToString("N0") FCFA</td>
+                        <td>@emp.DateCreation.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            <span class="badge @(emp.Statut == "Ouvert" ? "bg-warning text-dark" : "bg-success")">@emp.Statut</span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-primary">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Pagination -->
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage - 1)" asp-route-departementId="@departementId">Précédent</a>
+            </li>
+            
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-departementId="@departementId">@i</a>
+                </li>
+            }
+            
+            <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-page="@(currentPage + 1)" asp-route-departementId="@departementId">Suivant</a>
+            </li>
+        </ul>
+    </nav>
+</div>
